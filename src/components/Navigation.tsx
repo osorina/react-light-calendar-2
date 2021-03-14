@@ -4,6 +4,7 @@ type Props = {
     monthLabels: string[]
     month: number
     year: string
+    yearNavigation?: boolean
     onChange: (offset: { yearOffset?: number; monthOffset?: number }) => void
 }
 
@@ -11,6 +12,7 @@ const Navigation: React.FC<Props> = ({
     monthLabels,
     month,
     year,
+    yearNavigation,
     onChange
 }) => {
     const prevYear = () => onChange({ yearOffset: -1 })
@@ -22,12 +24,15 @@ const Navigation: React.FC<Props> = ({
     return (
         <div className='rlc-month-and-year-wrapper'>
             <div className='rlc-navigation-button-wrapper rlc-prevs'>
-                <div
-                    className='rlc-navigation-button rlc-prev-year'
-                    onClick={prevYear}
-                >
-                    {'<<'}
-                </div>
+                {yearNavigation && (
+                    <div
+                        className='rlc-navigation-button rlc-prev-year'
+                        onClick={prevYear}
+                    >
+                        {'<<'}
+                    </div>
+                )}
+
                 <div
                     className='rlc-navigation-button rlc-prev-month'
                     onClick={prevMonth}
@@ -45,12 +50,15 @@ const Navigation: React.FC<Props> = ({
                 >
                     {'>'}
                 </div>
-                <div
-                    className='rlc-navigation-button rlc-next-year'
-                    onClick={nextYear}
-                >
-                    {'>>'}
-                </div>
+
+                {yearNavigation && (
+                    <div
+                        className='rlc-navigation-button rlc-next-year'
+                        onClick={nextYear}
+                    >
+                        {'>>'}
+                    </div>
+                )}
             </div>
         </div>
     )

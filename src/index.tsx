@@ -6,7 +6,8 @@ import {
     getDays,
     dateIsBetween,
     dateIsOut,
-    getDateWithoutTime
+    getDateWithoutTime,
+    isSame
 } from './utils'
 
 import { labels } from './labels'
@@ -15,6 +16,7 @@ import { labels } from './labels'
 import DateDetails from './components/DateDetails'
 import Navigation from './components/Navigation'
 
+export type MarkedDay = { date: number; style?: React.CSSProperties }
 export type DateRangeType = ReturnType<typeof parseRange>
 
 type Props = {
@@ -24,9 +26,8 @@ type Props = {
     displayTime?: boolean
     dayLabels?: string[]
     monthLabels?: string[]
-    markedDays?: (
-        d: number
-    ) => void | boolean | { marked: boolean; style?: React.CSSProperties }
+    markedDays?: MarkedDay[]
+    yearNavigation?: boolean
     disableDates?: (date: number) => boolean
     onClickDate?: (date: number) => void
     onChange?: (params: DateRangeType) => void
@@ -40,6 +41,7 @@ export const Calendar: React.FC<Props> = ({
     dayLabels = labels.dayLabels,
     monthLabels = labels.monthLabels,
     markedDays,
+    yearNavigation,
     disableDates,
     onClickDate,
     onChange
@@ -89,23 +91,22 @@ export const Calendar: React.FC<Props> = ({
 
         const sDate = startDate && getDateWithoutTime(startDate)
         const eDate = endDate && getDateWithoutTime(endDate)
-        const marked = markedDays?.(day)
+        const marked = markedDays?.filter((e) => isSame(e.date, day))?.[0]
 
         const conditions = {
             'rlc-day': true,
             'rlc-day-disabled': disableDates?.(day),
-            'rlc-day-today': day === getDateWithoutTime(new Date().getTime()),
+            'rlc-day-today': isSame(Date.now(), day),
             'rlc-day-inside-selection': dateIsBetween(day, sDate, eDate),
             'rlc-day-out-of-month': dateIsOut(day, firstMonthDay, lastMonthDay),
             'rlc-day-selected': !endDate && sDate === day,
             'rlc-day-start-selection': endDate && sDate === day,
             'rlc-day-end-selection': endDate && eDate === day,
-            'rlc-day-marked':
-                typeof marked === 'object' ? marked.marked : marked
+            'rlc-day-marked': !!marked
         }
 
         return {
-            style: { ...(typeof marked === 'object' && { ...marked.style }) },
+            style: { ...(!!marked && { ...marked.style }) },
             className: Object.entries(conditions).reduce(
                 (prev, [className, valid]) =>
                     valid ? `${prev} ${className}` : prev,
@@ -146,12 +147,15 @@ export const Calendar: React.FC<Props> = ({
                     />
                 )}
             </div>
+
             <Navigation
                 monthLabels={monthLabels}
                 month={initMonthState.month}
                 year={initMonthState.year}
+                yearNavigation={yearNavigation}
                 onChange={changeMonth}
             />
+
             <div className='rlc-days-label'>
                 {dayLabels.map((label: string) => (
                     <div className='rlc-day-label' key={label.toLowerCase()}>
