@@ -6373,6 +6373,10 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "^3.0.0"
 
+lodash.times@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.times/-/lodash.times-4.3.2.tgz#3e1f2565c431754d54ab57f2ed1741939285ca1d"
+
 lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
@@ -9694,6 +9698,10 @@ timers-browserify@^2.0.4:
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.12.tgz#44a45c11fbf407f34f97bccd1577c652361b00ee"
   dependencies:
     setimmediate "^1.0.4"
+
+timestamp-utils@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/timestamp-utils/-/timestamp-utils-2.1.0.tgz#6034c743982f40d82d547c5a2015771ba037f7ac"
 
 timsort@^0.3.0:
   version "0.3.0"
