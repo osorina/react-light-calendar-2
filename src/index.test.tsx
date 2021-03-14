@@ -1,7 +1,7 @@
 import { Calendar } from '.'
 
 describe('Calendar', () => {
-  it('is truthy', () => {
-    expect(Calendar).toBeTruthy()
-  })
+    it('is truthy', () => {
+        expect(Calendar).toBeTruthy()
+    })
 })
